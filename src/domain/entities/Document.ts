@@ -5,14 +5,14 @@ export class Document {
         public readonly id: string,
         public readonly workspaceId: string,     // isolation multi-tenant, jamais réassignable
         public readonly uploadedBy: string,      // userId
-        public fileUrl: string  | null,
-        public readonly originalFileName: string,
-        public documentKind: DocumentKind | null,        // 'photo' | 'structured_document'
+        public fileUrl: string  | null,// URL Cloudinary du fichier stocké. null tant que l'upload définitif n'a pas eu lieu
+        public readonly originalFileName: string, // Le nom du fichier tel qu'uploadé par l'utilisateur (ex: photo_vacances.jpg),
+        public documentKind: DocumentKind | null, // 'photo' | 'structured_document' Indique si le fichier est une photo ou un document structuré, c'est cette valeur qui détermine quel chemin du pipeline LangGraph s'applique
         public documentType: string | null,       // ex: 'acte_naissance' — null tant que non classifié
-        public extractedFields: Record<string, unknown> | null,
-        public description: string | null,
-        public embedding: number[] | null,
-        public status: DocumentStatus,          
+        public extractedFields: Record<string, unknown> | null, //Les champs extraits par l'IA pour un document structuré (nom, date, numéro...)
+        public description: string | null,// La description sémantique générée par l'IA pour une photo (ex: "plage au coucher de soleil, deux personnes")
+        public embedding: number[] | null,// Le vecteur numérique représentant le "sens" du contenu (généré à partir de la description pour une photo, ou du texte extrait pour un document), utilisé pour la recherche par similarité vectorielle (pgvector
+        public status: DocumentStatus,      // L'état du document dans le pipeline de traitement (PROCESSING / INDEXED / FAILED). C'est ce qui permet à l'UI d'afficher "en cours d'analyse"   
         public readonly createdAt: Date
     )
     {}
