@@ -12,7 +12,6 @@ export class Membership {
   ) {}
 
   /**
-   * 
    * Gardien des autorisations de dépôt.
    * Vérifier que l'utilisateur est un membre actif qui a réellement rejoint le workspace (joinedAt !== null).
    * Empêcher une personne qui a seulement reçu une invitation en attente 
@@ -42,4 +41,16 @@ export class Membership {
   canDeleteWorkspace(): boolean {
     return this.role === MembershipRole.OWNER;
   }
+
+  /**
+   * 
+   * Vérifier si le membre est exclusivement le OWNER de l'espace.
+   * Sécurité maximale. Même un administrateur ne doit pas avoir 
+   * le pouvoir de renommer un espace de travail 
+   * 
+   */
+  canRenameWorkspace(): boolean {
+      return this.role === MembershipRole.OWNER;
+  }
+
 }
