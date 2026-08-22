@@ -4,6 +4,7 @@ export class User {
   constructor(
     public readonly id: string,
     public readonly email: string,
+    public fullName: string,
     public password: string,
     public isActive: boolean,
     public activationToken: string | null,
